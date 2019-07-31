@@ -55,7 +55,7 @@ var enterButton = false;
 var backButton = false;
 var canPressAgain = true;
 var mouseIsDown = false;
-var score = 0;
+var gameScore = 0;
 var word = [];
 var wordString = "";
 var fallingWords = [];
@@ -69,7 +69,7 @@ var scoresAreLoaded = false;
 var showScores = false;
 var enterGame = false;
 var endOfGame = false;
-var name = "";
+var gameName = "";
 
 
 fetch('https://raw.githubusercontent.com/dgatewood/SpeedType/master/resources/nouns.json')
@@ -197,6 +197,7 @@ function startScreen()
 			if(mouseIsDown)
 			{
 				enterGame = true;
+				canSubmit = true;
 			}
 		}
 	else
@@ -613,7 +614,7 @@ function drawScore()
 {
 ctx.fillStyle = "rgb(89, 0, 255)";
 ctx.font="italic bold 32px bodini";
-ctx.fillText("Score: " + score, 600, 575);
+ctx.fillText("Score: " + gameScore, 600, 575);
 			
 }
 
@@ -649,7 +650,7 @@ function drawFallingWords()
 		fallingWords[a].y += fallingSpeed;
 		if(fallingWords[a].word === wordString && enterButton)
 		{
-			score++;
+			gameScore++;
 			fallingWords.splice(a, 1);
 			wordString = "";
 			word.length = 0;
@@ -724,9 +725,13 @@ ctx.fillStyle = "rgb(255, 89, 0)";
 ctx.fillRect(0,0,800,600);
 
 ctx.fillStyle = "rgb(89, 0, 255)";
+ctx.font="italic bold 128px bodini";
+ctx.fillText("Game Over", 100, 110);
+
+ctx.fillStyle = "rgb(89, 0, 255)";
 ctx.font="italic bold 32px bodini";
-name = word.join('');
-if(name.length > 10)
+gameName = word.join('');
+if(gameName.length > 10)
 {
 	err1 = true;
 	word.length = 11;
@@ -744,8 +749,8 @@ ctx.fill();
 ctx.fillRect(125, 210, 200, 50);
 ctx.fillStyle = "rgb(89, 0, 255)";
 ctx.fillText("Enter Your Name: ", 100, 200);
-ctx.fillText(name, 150, 250);
-ctx.fillText("Your Score: " + score, 100, 300);
+ctx.fillText(gameName, 150, 250);
+ctx.fillText("Your Score: " + gameScore, 100, 300);
 if(err1)
 {
 ctx.fillStyle = "rgb(0, 255, 89)";
@@ -764,9 +769,25 @@ if(	x >= 500 &&
 			ctx.fillStyle = "rgb(255, 89, 0)";
 			ctx.font="italic bold 32px bodini";
 			ctx.fillText("Submit", 520, 225);
-			if(mouseIsDown)
+			if(mouseIsDown && canSubmit)
 			{
+				canSubmit = false;
 				//submit form
+				var url = 'http://localhost:9090/wordscores/savescore';
+				var data = JSON.stringify({
+					score: gameScore,
+					name: gameName
+					});
+
+				fetch(url, {
+				  method: 'POST', // or 'PUT'
+				  body: data, // data can be `string` or {object}!
+				  headers:{
+					'Content-Type': 'application/json'
+				  }
+				}).then(res => res.text())
+				.then(response => console.log('Success:', JSON.stringify(response)))
+				.catch(error => console.error('Error:', error));
 			}
 		}
 		
