@@ -768,10 +768,13 @@ if(	x >= 500 &&
 			ctx.fillRect(500,175,200,100);
 			ctx.fillStyle = "rgb(255, 89, 0)";
 			ctx.font="italic bold 32px bodini";
-			ctx.fillText("Submit", 520, 225);
+			ctx.fillText("Submit", 550, 225);
 			if(mouseIsDown && canSubmit)
 			{
 				canSubmit = false;
+				enterGame = false;
+				endOfGame = false;
+				showScores = false;
 				//submit form
 				var url = 'http://localhost:9090/wordscores/savescore';
 				var data = JSON.stringify({
