@@ -241,7 +241,7 @@ function scoreScreen()
 {
 	if(!scoresAreLoaded)
 	{
-		fetchUsers('http://localhost:9090/wordscores/getscores');
+		fetchUsers('http://192.168.1.166:9090/wordscores/getscores');
 	}
 	else
 	{
@@ -776,7 +776,8 @@ if(	x >= 500 &&
 				endOfGame = false;
 				showScores = false;
 				//submit form
-				var url = 'http://localhost:9090/wordscores/savescore';
+				//var url = 'http://localhost:9090/wordscores/savescore';
+				var url = 'http://192.168.1.166:9090/wordscores/savescore';
 				var data = JSON.stringify({
 					score: gameScore,
 					name: gameName
