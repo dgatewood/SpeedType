@@ -51,6 +51,7 @@ var vButton = false;
 var bButton = false;
 var nButton = false;
 var mButton = false;
+var shiftButton = false;
 var enterButton = false;
 var backButton = false;
 var canPressAgain = true;
@@ -66,6 +67,7 @@ var err2 = false;
 var err3 = false;
 
 var scoresAreLoaded = false;
+var canLoadScores = true;
 var showScores = false;
 var enterGame = false;
 var endOfGame = false;
@@ -115,6 +117,7 @@ function FallingWord(x1 , y1, w)
 async function fetchUsers(endpoint) {
   const res = await fetch(endpoint);
   let data = await res.json();
+  canLoadScores = false;
 	ctx.fillStyle = "rgb(255, 89, 0)";
 	ctx.fillRect(0,0,800,600);
   
@@ -157,8 +160,9 @@ async function fetchUsers(endpoint) {
 	ctx.font = "30px Arial";
 	ctx.fillText(data[a].score, 450, 230 + (a * 30));
 	}
-  console.log(data);
+  //console.log(data);
   scoresAreLoaded = true;
+  canLoadScores = false;
 }
 
 function line(x1, y1, x2, y2, col = "black")
@@ -225,6 +229,7 @@ function startScreen()
 			if(mouseIsDown)
 			{
 				showScores = true;
+				canLoadScores = true;
 			}
 		}
 	else
@@ -239,9 +244,9 @@ function startScreen()
 
 function scoreScreen()
 {
-	if(!scoresAreLoaded)
+	if(!scoresAreLoaded && canLoadScores)
 	{
-		fetchUsers('https://192.168.1.166:9090/wordscores/getscores');
+		fetchUsers('http://192.168.1.166:9090/wordscores/getscores');
 	}
 	else
 	{
@@ -280,159 +285,324 @@ function keyDownHandler(e){
 	if(e.keyCode == 65 && canPressAgain)
 	{
 	aButton = true;
+	if(shiftButton)
+	{
+		word.push("A");
+	}
+	else{
 	word.push("a");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 66 && canPressAgain)
 	{
 	bButton = true;
+	if(shiftButton)
+	{
+		word.push("B");
+	}
+	else{
 	word.push("b");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 67 && canPressAgain)
 	{
 	cButton = true;
+	if(shiftButton)
+	{
+		word.push("C");
+	}
+	else{
 	word.push("c");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 68 && canPressAgain)
 	{
 	dButton = true;
+	if(shiftButton)
+	{
+		word.push("D");
+	}
+	else{
 	word.push("d");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 69 && canPressAgain)
 	{
 	eButton = true;
+	if(shiftButton)
+	{
+		word.push("E");
+	}
+	else{
 	word.push("e");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 70 && canPressAgain)
 	{
 	fButton = true;
+	if(shiftButton)
+	{
+		word.push("F");
+	}
+	else{
 	word.push("f");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 71 && canPressAgain)
 	{
 	gButton = true;
+	if(shiftButton)
+	{
+		word.push("G");
+	}
+	else{
 	word.push("g");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 72 && canPressAgain)
 	{
 	hButton = true;
+	if(shiftButton)
+	{
+		word.push("H");
+	}
+	else{
 	word.push("h");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 73 && canPressAgain)
 	{
 	iButton = true;
+	if(shiftButton)
+	{
+		word.push("I");
+	}
+	else{
 	word.push("i");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 74 && canPressAgain)
 	{
 	jButton = true;
+	if(shiftButton)
+	{
+		word.push("J");
+	}
+	else{
 	word.push("j");
+	}
 	canPressAgain = false;
 	}
 else if(e.keyCode == 75 && canPressAgain)
 	{
 	kButton = true;
+	if(shiftButton)
+	{
+		word.push("K");
+	}
+	else{
 	word.push("k");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 76 && canPressAgain)
 	{
 	lButton = true;
+	if(shiftButton)
+	{
+		word.push("L");
+	}
+	else{
 	word.push("l");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 77 && canPressAgain)
 	{
 	mButton = true;
+	if(shiftButton)
+	{
+		word.push("M");
+	}
+	else{
 	word.push("m");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 78 && canPressAgain)
 	{
 	nButton = true;
+	if(shiftButton)
+	{
+		word.push("N");
+	}
+	else{
 	word.push("n");
+	}
 	canPressAgain = false;
 	}	
 else if(e.keyCode == 79 && canPressAgain)
 	{
 	oButton = true;
+	if(shiftButton)
+	{
+		word.push("O");
+	}
+	else{
 	word.push("o");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 80 && canPressAgain)
 	{
 	pButton = true;
+	if(shiftButton)
+	{
+		word.push("P");
+	}
+	else{
 	word.push("p");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 81 && canPressAgain)
 	{
 	qButton = true;
+	if(shiftButton)
+	{
+		word.push("Q");
+	}
+	else{
 	word.push("q");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 82 && canPressAgain)
 	{
 	rButton = true;
+	if(shiftButton)
+	{
+		word.push("R");
+	}
+	else{
 	word.push("r");
+	}
 	canPressAgain = false;
 	}	
 else if(e.keyCode == 83 && canPressAgain)
 	{
 	sButton = true;
+	if(shiftButton)
+	{
+		word.push("S");
+	}
+	else{
 	word.push("s");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 84 && canPressAgain)
 	{
 	tButton = true;
+	if(shiftButton)
+	{
+		word.push("T");
+	}
+	else{
 	word.push("t");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 85 && canPressAgain)
 	{
 	uButton = true;
+	if(shiftButton)
+	{
+		word.push("U");
+	}
+	else{
 	word.push("u");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 86 && canPressAgain)
 	{
 	vButton = true;
+	if(shiftButton)
+	{
+		word.push("V");
+	}
+	else{
 	word.push("v");
+	}
 	canPressAgain = false;
 	}	
 else if(e.keyCode == 87 && canPressAgain)
 	{
 	wButton = true;
+	if(shiftButton)
+	{
+		word.push("W");
+	}
+	else{
 	word.push("w");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 88 && canPressAgain)
 	{
 	xButton = true;
+	if(shiftButton)
+	{
+		word.push("X");
+	}
+	else{
 	word.push("x");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 89 && canPressAgain)
 	{
 	yButton = true;
+	if(shiftButton)
+	{
+		word.push("Y");
+	}
+	else{
 	word.push("y");
+	}
 	canPressAgain = false;
 	}
 	else if(e.keyCode == 90 && canPressAgain)
 	{
 	zButton = true;
+	if(shiftButton)
+	{
+		word.push("Z");
+	}
+	else{
 	word.push("z");
+	}
 	canPressAgain = false;
 	}
+	
+	///This is for shift
+	else if(e.keyCode == 16 && canPressAgain)
+	{
+	shiftButton = true;
+	//word.push("z");
+	//canPressAgain = false;
+	}
+	
 	else if(e.keyCode == 13 && canPressAgain)
 	{
 	///enter
@@ -465,6 +635,11 @@ function keyUpHandler(e){
 	{
 	aButton = false;
 	canPressAgain = true;
+	}
+	else if(e.keyCode == 16)
+	{
+	shiftButton = false;
+	//canPressAgain = false;
 	}
 	else if(e.keyCode == 66)
 	{
@@ -777,7 +952,7 @@ if(	x >= 500 &&
 				showScores = false;
 				//submit form
 				//var url = 'http://localhost:9090/wordscores/savescore';
-				var url = 'https://192.168.1.166:9090/wordscores/savescore';
+				var url = 'http://192.168.1.166:9090/wordscores/savescore';
 				var data = JSON.stringify({
 					score: gameScore,
 					name: gameName
