@@ -74,6 +74,9 @@ var endOfGame = false;
 var gameName = "";
 var wordAddSpeed = 800;
 
+var snd = new Audio();
+snd.src = "https://raw.githubusercontent.com/dgatewood/SpeedType/master/resources/pop.wav";
+
 
 fetch('https://raw.githubusercontent.com/dgatewood/SpeedType/master/resources/nouns.json')
   .then(function(response) {
@@ -830,6 +833,7 @@ function drawFallingWords()
 		if(fallingWords[a].word === wordString && enterButton)
 		{
 			gameScore++;
+			snd.play();
 			fallingWords.splice(a, 1);
 			wordString = "";
 			word.length = 0;
