@@ -72,6 +72,7 @@ var showScores = false;
 var enterGame = false;
 var endOfGame = false;
 var gameName = "";
+var wordAddSpeed = 800;
 
 
 fetch('https://raw.githubusercontent.com/dgatewood/SpeedType/master/resources/nouns.json')
@@ -789,7 +790,10 @@ function drawScore()
 {
 ctx.fillStyle = "rgb(89, 0, 255)";
 ctx.font="italic bold 32px bodini";
-ctx.fillText("Score: " + gameScore, 600, 575);
+ctx.fillText("Score: " + gameScore, 530, 590);
+ctx.fillStyle = "rgb(89, 0, 255)";
+ctx.font="italic bold 32px bodini";
+ctx.fillText("Words Missed: " + wordsMissed + "/6", 530, 560);
 			
 }
 
@@ -860,9 +864,16 @@ function addNewWords()
 	newWordTimer--;
 	if(newWordTimer < 0)
 	{
-		newWordTimer = Math.floor(Math.random() * 200) + 100;
+		newWordTimer = Math.floor(Math.random() * wordAddSpeed) + 100;
 		//console.log("possible word.nouns[3]: " + possibleWords.nouns[3]);
-		fallingWords.push(new FallingWord(Math.floor(Math.random() * 700) + 50, -50, possibleWords.nouns[Math.floor(Math.random() * possibleWords.nouns.length)]));
+		var randomWord = possibleWords.nouns[Math.floor(Math.random() * possibleWords.nouns.length)];
+		var x2 = Math.floor(Math.random() * 700) + 50 - (randomWord.length * 20);
+		if(x2 < 0)
+		{
+			x2 = 50;
+		}
+		fallingWords.push(new FallingWord(x2, -50, randomWord));
+		wordAddSpeed -= 5;
 	}
 }
 
@@ -892,6 +903,24 @@ ctx.fillStyle = "rgb(89, 0, 255)";
 ctx.font="italic bold 32px bodini";
 ctx.fillText("Typed Word: " + wordString, 25, 575);
 }
+}
+
+function drawMissedWords()
+{
+	var shiftOver = 0;
+	var shiftDown = 0;
+	for(var a  = 1; a < wordsMissed+1; a++)
+	{
+		console.log("This is being hit.");
+		ctx.fillStyle = "rgb(0, 0, 0)";
+		ctx.fillRect(200 + shiftDown,200 + shiftOver,20,20);
+		shiftDown += 30;
+		if(a%4 == 0)
+		{
+			shiftDown = 0;
+			shiftOver += 30;
+		}
+	}
 }
 
 function drawEndOfGame()
@@ -971,6 +1000,9 @@ if(	x >= 500 &&
 				wordsMissed = 0;
 				fallingWords.length = 0;
 				word.length = 0;
+				showScores = true;
+				scoresAreLoaded = false;
+				canLoadScores = true;
 			}
 		}
 		
@@ -1004,6 +1036,7 @@ else if(showScores)
 }
 else if(enterGame){
 	drawWordGame();
+	
 }
 }
 setInterval(draw, 2);
